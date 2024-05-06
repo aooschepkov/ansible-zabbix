@@ -1,0 +1,33 @@
+---
+# tasks file for ansible-zabbix
+- name: Ensure Zabbix user exists
+  ansible.builtin.include_tasks:
+    file: user.yml
+    apply:
+      become: true
+
+- name: Ensure postgres is up
+  ansible.builtin.include_tasks:
+    file: postgres.yml
+    apply:
+      become: true
+  when: zabbix_database == "postgres"
+
+# - name: Ensure mysql is up
+#   ansible.builtin.include_tasks:
+#     file: mysql.yml
+#     apply:
+#       become: true
+#   when: zabbix_database == "mysql"
+
+- name: Ensure zabbix server is up
+  ansible.builtin.include_tasks:
+    file: server.yml
+    apply:
+      become: true
+
+- name: Ensure zabbix ui is up
+  ansible.builtin.include_tasks:
+    file: ui.yml
+    apply:
+      become: true

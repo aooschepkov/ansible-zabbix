@@ -1,0 +1,22 @@
+---
+# handlers file for ansible-zabbix
+- name: Restart postgres
+  ansible.builtin.systemd:
+    service: "{{ postgres_service_name }}"
+    daemon_reload: true
+    state: restarted
+  listen: Restart postgres
+
+- name: Restart zabbix server
+  ansible.builtin.systemd:
+    service: "{{ zabbix_server_service_name }}"
+    daemon_reload: true
+    state: restarted
+  listen: Restart zabbix server
+
+- name: Restart zabbix ui
+  ansible.builtin.systemd:
+    service: "{{ zabbix_web_service_name }}"
+    daemon_reload: true
+    state: restarted
+  listen: Restart zabbix ui

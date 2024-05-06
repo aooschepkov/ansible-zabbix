@@ -1,0 +1,23 @@
+[Unit]
+Description=Zabbix server
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker rm --force {{ zabbix_server_service_name }}
+ExecStart=/usr/bin/docker run --rm \
+    -n {{ zabbix_server_service_name }} \
+    -u {{ zabbix_user }} \
+    -p {{ zabbix_server_port }}:10051 \
+    {# ADD CONDITION IF PG IF MYSQL #}
+    -e DB_SERVER_HOST="localhost:{{ postgres_port }}" \ 
+    -e POSTGRES_USER="{{ postgres_user }}" \
+    -e POSTGRES_PASSWORD="{{ postgres_password }}" \
+    -e POSTGRES_DB="{{ postgres_db_name }}" \
+    {{ zabbix_server_image }}
+
+ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_server_service_name }}
+
+[Install]
+WantedBy=multu-user.target

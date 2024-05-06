@@ -1,0 +1,23 @@
+[Unit]
+Description=Zabbix postgres server
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker rm --force {{ postgres_service_name }}
+ExecStart=/usr/bin/docker run --rm \
+    -n {{ postgres_service_name }} \
+    -u {{ zabbix_user }} \
+    -p {{ postgres_port }}:5432 \
+    -v {{ postgres_data_directory }}:/var/lib/postgresql/data \
+    -v {{ postgres_conf_directory }}:/etc/postgresql \
+    -e POSTGRES_USER="{{ postgres_user }}" \
+    -e POSTGRES_PASSWORD="{{ postgres_password }}" \
+    -e POSTGRES_DB="{{ postgres_db_name }}" \
+    {{ postgres_image }}
+
+ExecStop=/usr/bin/docker stop -t 10 {{ postgres_service_name }}
+
+[Install]
+WantedBy=multu-user.target
