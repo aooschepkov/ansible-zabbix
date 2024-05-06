@@ -9,8 +9,8 @@ ExecStartPre=-/usr/bin/docker rm --force {{ zabbix_web_service_name }}
 ExecStart=/usr/bin/docker run --rm \
     --name {{ zabbix_web_service_name }} \
     -u {{ zabbix_user_id }} \
-    -p {{ zabbix_web_http_port }}:80 \
-    -p {{ zabbix_web_https_port }}:443 \
+    -p {{ zabbix_web_http_port }}:8080 \
+    -p {{ zabbix_web_https_port }}:8443 \
     --network=zabbix-net \
     {# ADD CONDITION IF PG IF MYSQL #}
     -e "ZBX_SERVER_HOST"="{{ zabbix_server_service_name }}" \
