@@ -1,7 +1,12 @@
 ---
+- name: Ensure zabbix group exists
+  ansible.builtin.group:
+    name: "{{ zabbix_group }}"
+
 - name: Ensure zabbix user and group exist
   ansible.builtin.user:
     name: "{{ zabbix_user }}"
     groups: "{{ zabbix_group }}"
+    uid: "{{ zabbix_user_id }}"
     shell: /usr/bin/nologin
     create_home: false

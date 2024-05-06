@@ -7,17 +7,18 @@ After=docker.service
 Restart=always
 ExecStartPre=-/usr/bin/docker rm --force {{ zabbix_web_service_name }}
 ExecStart=/usr/bin/docker run --rm \
-    -n {{ zabbix_web_service_name }} \
-    -u {{ zabbix_user }} \
+    --name {{ zabbix_web_service_name }} \
+    -u {{ zabbix_user_id }} \
     -p {{ zabbix_web_http_port }}:80 \
     -p {{ zabbix_web_https_port }}:443 \
+    --network=zabbix-net \
     {# ADD CONDITION IF PG IF MYSQL #}
-    -e ZBX_SERVER_HOST="localhost:{{ zabbix_server_port }}" \
-    -e DB_SERVER_HOST="localhost:{{ postgres_port }}" \ 
-    -e POSTGRES_USER="{{ postgres_user }}" \
-    -e POSTGRES_PASSWORD="{{ postgres_password }}" \
-    -e POSTGRES_DB="{{ postgres_db_name }}" \
-    {{ zabbix_web_image }}
+    -e "ZBX_SERVER_HOST"="{{ zabbix_server_service_name }}" \
+    -e "DB_SERVER_HOST"="{{ postgres_service_name }}" \
+    -e "POSTGRES_USER"="{{ postgres_user }}" \
+    -e "POSTGRES_PASSWORD"="{{ postgres_password }}" \
+    -e "POSTGRES_DB"="{{ postgres_db_name }}" \
+    {{ zabbix_web_image }} 
 
 ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_web_service_name }}
 

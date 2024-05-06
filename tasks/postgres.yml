@@ -10,6 +10,10 @@
     - "{{ postgres_data_directory }}"
     - "{{ postgres_conf_directory }}"
 
+- name: Ensure docker network exists
+  community.docker.docker_network:
+    name: zabbix-net
+
 - name: Ensure postgres service exists
   ansible.builtin.template:
     src: zabbix_pg.service.j2

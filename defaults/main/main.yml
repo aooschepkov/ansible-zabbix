@@ -3,6 +3,7 @@ zabbix_server_name: Zabbix
 
 zabbix_user: zabbix
 zabbix_group: zabbix
+zabbix_user_id: 1001
 
 zabbix_host_directory: /etc/zabbix
 
@@ -14,7 +15,7 @@ zabbix_database: postgres # mysql
 
 # zbx_enable_snmp_traps: true
 
-zabbix_web_service_name: zabbix_ui
-zabbix_web_http_port: 80
-zabbix_web_https_port: 443
+zabbix_web_service_name: zabbix-ui
+zabbix_web_http_port: 8080
+zabbix_web_https_port: 8443
 zabbix_web_image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest  # ADD CONDITION FOR MYSQL

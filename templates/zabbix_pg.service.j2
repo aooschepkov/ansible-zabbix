@@ -7,9 +7,10 @@ After=docker.service
 Restart=always
 ExecStartPre=-/usr/bin/docker rm --force {{ postgres_service_name }}
 ExecStart=/usr/bin/docker run --rm \
-    -n {{ postgres_service_name }} \
-    -u {{ zabbix_user }} \
+    --name {{ postgres_service_name }} \
+    -u {{ zabbix_user_id }} \
     -p {{ postgres_port }}:5432 \
+    --network=zabbix-net \
     -v {{ postgres_data_directory }}:/var/lib/postgresql/data \
     -v {{ postgres_conf_directory }}:/etc/postgresql \
     -e POSTGRES_USER="{{ postgres_user }}" \
