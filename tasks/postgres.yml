@@ -5,7 +5,8 @@
     state: directory
     owner: "{{ zabbix_user }}"
     group: "{{ zabbix_group }}"
-    recurse: true
+    mode: "700"
+    # recurse: true
   loop:
     - "{{ postgres_data_directory }}"
     - "{{ postgres_conf_directory }}"

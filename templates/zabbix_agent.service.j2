@@ -1,0 +1,20 @@
+[Unit]
+Description=Zabbix agent
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=-/usr/bin/docker rm --force {{ zabbix_agent_service_name }}
+ExecStart=/usr/bin/docker run --rm \
+    --name {{ zabbix_agent_service_name }} \
+    -u {{ zabbix_user_id }} \
+    -p 10050:10050 \
+    {# 172.17.0.1 is default i am guessing, need to find a way to specify external ip and not break snmp #}
+    -e "ZBX_SERVER_HOST"="192.168.88.230, 172.17.0.1" \
+    {{ zabbix_agent_image }} 
+
+ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_agent_service_name }}
+
+[Install]
+WantedBy=multu-user.target

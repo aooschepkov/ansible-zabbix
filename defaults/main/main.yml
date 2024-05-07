@@ -19,3 +19,6 @@ zabbix_web_service_name: zabbix-ui
 zabbix_web_http_port: 8080
 zabbix_web_https_port: 8443
 zabbix_web_image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest  # ADD CONDITION FOR MYSQL
+
+zabbix_agent_service_name: zabbix-agent
+zabbix_agent_image: zabbix/zabbix-agent:alpine-6.4-latest

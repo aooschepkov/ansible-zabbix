@@ -1,10 +1,10 @@
 ---
 # tasks file for ansible-zabbix
-- name: Ensure Zabbix user exists
+- name: Create Zabbix user
   ansible.builtin.include_tasks:
     file: user.yml
 
-- name: Ensure postgres is up
+- name: Configure postgres server
   ansible.builtin.include_tasks:
     file: postgres.yml
   when: zabbix_database == "postgres"
@@ -14,10 +14,14 @@
 #     file: mysql.yml
 #   when: zabbix_database == "mysql"
 
-- name: Ensure zabbix server is up
+- name: Configure zabbix server
   ansible.builtin.include_tasks:
     file: server.yml
 
-- name: Ensure zabbix ui is up
+- name: Configure zabbix web ui
   ansible.builtin.include_tasks:
     file: ui.yml
+
+- name: Configure zabbix agent
+  ansible.builtin.include_tasks:
+    file: agent.yml
