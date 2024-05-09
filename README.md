@@ -24,7 +24,7 @@ Example Playbook
 ```yaml
 ---
 - name: Import zabbix role
-  hosts: localhost
+  hosts: all
   become: true
   roles:
     - ansible-zabbix
@@ -48,5 +48,3 @@ BSD
 
 Author Information
 ------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
