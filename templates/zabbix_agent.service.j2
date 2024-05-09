@@ -9,14 +9,9 @@ ExecStartPre=-/usr/bin/docker rm --force {{ zabbix_agent_service_name }}
 ExecStart=/usr/bin/docker run --rm \
     --name {{ zabbix_agent_service_name }} \
     -u {{ zabbix_user_id }} \
-    {# self monitoring - need to deploy in the same docker nw #}
-    --network "zabbix-net" \
-    {# needed for remote hosts, add condition #}
-    {# -p 10050:10050 \ #}
-    {# works since in the same nw, also condition for remote hosts #}
-    -e "ZBX_SERVER_HOST"="zabbix-server" \
-    {# system.hostname should be fine for remotes #}
-    -e "ZBX_HOSTNAME"="Zabbix server" \
+    -p 10050:10050 \
+    -e "ZBX_SERVER_HOST"="{{ '172.17.0.1' if 'zabbix_server' in group_names else zabbix_server_ip }}" \
+    -e "ZBX_HOSTNAME"="{{ 'Zabbix server' if 'zabbix_server' in group_names else ansible_hostname }}" \
     {{ zabbix_agent_image }} 
 
 ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_agent_service_name }}

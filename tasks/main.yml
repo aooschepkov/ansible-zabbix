@@ -7,20 +7,18 @@
 - name: Configure postgres server
   ansible.builtin.include_tasks:
     file: postgres.yml
-  when: zabbix_database == "postgres"
-
-# - name: Ensure mysql is up
-#   ansible.builtin.include_tasks:
-#     file: mysql.yml
-#   when: zabbix_database == "mysql"
+  # when: zabbix_database == "postgres"
+  when: "'zabbix_server' in group_names"
 
 - name: Configure zabbix server
   ansible.builtin.include_tasks:
     file: server.yml
+  when: "'zabbix_server' in group_names"
 
 - name: Configure zabbix web ui
   ansible.builtin.include_tasks:
     file: ui.yml
+  when: "'zabbix_server' in group_names"
 
 - name: Configure zabbix agent
   ansible.builtin.include_tasks:

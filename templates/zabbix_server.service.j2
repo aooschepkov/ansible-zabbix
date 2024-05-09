@@ -10,13 +10,10 @@ ExecStart=/usr/bin/docker run --rm \
     --name {{ zabbix_server_service_name }} \
     -u {{ zabbix_user_id }} \
     -p {{ zabbix_server_port }}:10051 \
-    --network=zabbix-net \
-    {# ADD CONDITION IF PG IF MYSQL #}
-    -e "DB_SERVER_HOST"="{{ postgres_service_name }}" \
+    -e "DB_SERVER_HOST"="{{ ansible_default_ipv4.address }}" \
     -e "POSTGRES_USER"="{{ postgres_user }}" \
     -e "POSTGRES_PASSWORD"="{{ postgres_password }}" \
     -e "POSTGRES_DB"="{{ postgres_db_name }}" \
-    {# -e "ZBX_SOURCEIP"="127.0.0.1" \ #}
     {{ zabbix_server_image }}
 
 ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_server_service_name }}
