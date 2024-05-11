@@ -1,7 +1,9 @@
 Ansible Role: Zabbix
 =========
 
-An Ansible role that installs Zabbix server and Zabbix agents on your servers. 
+An Ansible role that installs containerized Zabbix server and Zabbix agents on your <ins>systemd enabled</ins> linux servers.
+ - Supports HA mode for server and UI. (HA DB will be added in the future)
+ - HA mode is enabled by default if there are more than 1 host in `zabbix_server` inventory group.
 
 Requirements
 ------------
@@ -12,6 +14,8 @@ Role Variables
 --------------
 
 See `defaults/main.yml`
+
+If using Zabbix in HA mode, pay attention to `keepalived_virtual_ipaddress` variable. This is a VIP (Virual IP Address) that shouln't be in use within your network.
 
 Dependencies
 ------------
