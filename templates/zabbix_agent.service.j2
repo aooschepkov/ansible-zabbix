@@ -10,8 +10,11 @@ ExecStart=/usr/bin/docker run --rm \
     --name {{ zabbix_agent_service_name }} \
     -u {{ zabbix_user_id }} \
     -p 10050:10050 \
-    -e "ZBX_SERVER_HOST"="{{ '172.17.0.1' if 'zabbix_server' in group_names else zabbix_server_ip }}" \
-    -e "ZBX_HOSTNAME"="{{ 'Zabbix server' if 'zabbix_server' in group_names else ansible_hostname }}" \
+    {% if groups['zabbix_server'] | length > 1 %}
+    -e "ZBX_PASSIVESERVERS"="{{ zabbix_server_ip if 'zabbix_server' not in group_names else zabbix_server_ip + ',172.17.0.1' }}" \
+    -e "ZBX_ACTIVESERVERS"="{{ zabbix_active_server_ip if 'zabbix_server' not in group_names else zabbix_server_ip + ';172.17.0.1' }}" \
+    {% endif %}
+    -e "ZBX_HOSTNAME"="{{ ansible_hostname }}" \
     {{ zabbix_agent_image }} 
 
 ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_agent_service_name }}

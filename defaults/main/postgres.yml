@@ -1,9 +1,0 @@
----
-postgres_user: zabbix
-postgres_password: zabbix
-postgres_db_name: zabbix
-postgres_port: 5432
-postgres_data_directory: "{{ zabbix_host_directory }}/postgres/data"
-postgres_conf_directory: "{{ zabbix_host_directory }}/postgres/config"
-postgres_service_name: zabbix-pg
-postgres_image: postgres:latest # CHANGE !!!

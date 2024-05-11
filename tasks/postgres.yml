@@ -1,26 +1,21 @@
 ---
-- name: Ensure database directories exist
+- name: Create postgres directories
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     owner: "{{ zabbix_user }}"
     group: "{{ zabbix_group }}"
     mode: "700"
-    # recurse: true
   loop:
     - "{{ postgres_data_directory }}"
     - "{{ postgres_conf_directory }}"
 
-- name: Ensure docker network exists
-  community.docker.docker_network:
-    name: zabbix-net
-
-- name: Ensure postgres service exists
+- name: Template postgres service
   ansible.builtin.template:
     src: zabbix_pg.service.j2
     dest: /etc/systemd/system/{{ postgres_service_name }}.service
     owner: "{{ zabbix_user }}"
     group: "{{ zabbix_group }}"
-    mode: "0644" # ???
+    mode: "0644"
   notify:
     - Restart postgres

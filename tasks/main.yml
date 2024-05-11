@@ -1,5 +1,4 @@
 ---
-# tasks file for ansible-zabbix
 - name: Create Zabbix user
   ansible.builtin.include_tasks:
     file: user.yml
@@ -7,8 +6,7 @@
 - name: Configure postgres server
   ansible.builtin.include_tasks:
     file: postgres.yml
-  # when: zabbix_database == "postgres"
-  when: "'zabbix_server' in group_names"
+  when: "'postgres' in group_names"
 
 - name: Configure zabbix server
   ansible.builtin.include_tasks:

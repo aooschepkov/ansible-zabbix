@@ -1,17 +1,17 @@
 Ansible Role: Zabbix
 =========
 
-An Ansible role that installs Zabbix server and Zabbix agents on your servers
+An Ansible role that installs Zabbix server and Zabbix agents on your servers. 
 
 Requirements
 ------------
 
-Ansible installed
+Ansible
 
 Role Variables
 --------------
 
-See `defaults/main/main.yml` and `defaults/main/postgres.yml`
+See `defaults/main.yml`
 
 Dependencies
 ------------
@@ -36,9 +36,15 @@ Example Inventory
 ```ini
 [zabbix_server]
 zabbix1 ansible_host=192.168.88.223
+zabbix2 ansible_host=192.168.88.222
+zabbix3 ansible_host=192.168.88.224
+
+[postgres]
+zabbix1 ansible_host=192.168.88.223
 
 [zabbix_agent]
 alma[1:3]
+
 ```
 
 License

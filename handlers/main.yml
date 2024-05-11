@@ -5,6 +5,7 @@
     service: "{{ postgres_service_name }}"
     daemon_reload: true
     state: restarted
+    enabled: true
   listen: Restart postgres
 
 - name: Restart zabbix server
@@ -12,6 +13,7 @@
     service: "{{ zabbix_server_service_name }}"
     daemon_reload: true
     state: restarted
+    enabled: true
   listen: Restart zabbix server
 
 - name: Restart zabbix ui
@@ -19,6 +21,7 @@
     service: "{{ zabbix_web_service_name }}"
     daemon_reload: true
     state: restarted
+    enabled: true
   listen: Restart zabbix ui
 
 - name: Restart zabbix agent
@@ -26,4 +29,5 @@
     service: "{{ zabbix_agent_service_name }}"
     daemon_reload: true
     state: restarted
+    enabled: true
   listen: Restart zabbix agent

@@ -10,10 +10,14 @@ ExecStart=/usr/bin/docker run --rm \
     --name {{ zabbix_server_service_name }} \
     -u {{ zabbix_user_id }} \
     -p {{ zabbix_server_port }}:10051 \
-    -e "DB_SERVER_HOST"="{{ ansible_default_ipv4.address }}" \
+    -e "DB_SERVER_HOST"="{{ postgres_server_ip }}" \
     -e "POSTGRES_USER"="{{ postgres_user }}" \
     -e "POSTGRES_PASSWORD"="{{ postgres_password }}" \
     -e "POSTGRES_DB"="{{ postgres_db_name }}" \
+    {% if groups['zabbix_server'] | length > 1 %}
+    -e "ZBX_HANODENAME"="{{ ansible_hostname }}" \
+    -e "ZBX_NODEADDRESS"="{{ ansible_default_ipv4.address }}:{{ zabbix_server_port }}" \
+    {% endif %}
     {{ zabbix_server_image }}
 
 ExecStop=/usr/bin/docker stop -t 10 {{ zabbix_server_service_name }}

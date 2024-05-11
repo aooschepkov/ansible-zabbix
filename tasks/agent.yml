@@ -5,6 +5,6 @@
     dest: /etc/systemd/system/{{ zabbix_agent_service_name }}.service
     owner: "{{ zabbix_user }}"
     group: "{{ zabbix_group }}"
-    mode: "0644" # ???
+    mode: "0644"
   notify:
     - Restart zabbix agent

@@ -1,0 +1,42 @@
+---
+zabbix_server_name: Zabbix
+
+zabbix_user: zabbix
+zabbix_group: zabbix
+zabbix_user_id: 1001
+
+zabbix_host_directory: /etc/zabbix
+
+zabbix_server_image: zabbix/zabbix-server-pgsql:alpine-6.4-latest
+zabbix_server_service_name: zabbix-server
+zabbix_server_port: 10051
+
+# zbx_enable_snmp_traps: true
+
+zabbix_web_service_name: zabbix-ui
+zabbix_web_http_port: 8080
+zabbix_web_https_port: 8443
+zabbix_web_image: zabbix/zabbix-web-nginx-pgsql:alpine-6.4-latest
+
+zabbix_agent_service_name: zabbix-agent
+zabbix_agent_image: zabbix/zabbix-agent:alpine-6.4-latest
+
+zabbix_server_ip: |-
+      {% for host in groups['zabbix_server'] -%}
+        {{ hostvars[host]['ansible_host'] }}{% if not loop.last %},{% endif %}
+      {% endfor -%}
+
+zabbix_active_server_ip: |-
+      {% for host in groups['zabbix_server'] -%}
+        {{ hostvars[host]['ansible_host'] }}{% if not loop.last %};{% endif %}
+      {% endfor -%}
+
+postgres_user: zabbix
+postgres_password: zabbix
+postgres_db_name: zabbix
+postgres_server_ip: "{{ hostvars[groups['postgres'][0]]['ansible_host'] }}"
+postgres_port: 5432
+postgres_data_directory: "{{ zabbix_host_directory }}/postgres/data"
+postgres_conf_directory: "{{ zabbix_host_directory }}/postgres/config"
+postgres_service_name: zabbix-pg
+postgres_image: postgres:latest
