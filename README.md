@@ -54,7 +54,9 @@ alma[1:3]
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
+
+Andrey Oschepkov
