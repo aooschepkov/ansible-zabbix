@@ -1,3 +1,7 @@
+global_defs {
+  router_id {{ ansible_hostname }}  # Unique per server
+}
+
 vrrp_script chk_haproxy {
     script "killall -0 haproxy"   # Check if HAProxy process is running
     interval 2                    # Check every 2 seconds
