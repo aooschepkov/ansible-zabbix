@@ -21,3 +21,8 @@
 - name: Configure zabbix agent
   ansible.builtin.include_tasks:
     file: agent.yml
+
+- name: Configure haproxy and keepalived
+  ansible.builtin.include_tasks:
+    file: haproxy-keepalived.yml
+  when: "'zabbix_server' in group_names and groups['zabbix_server'] | length > 1"

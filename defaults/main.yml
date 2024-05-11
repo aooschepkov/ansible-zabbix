@@ -40,3 +40,9 @@ postgres_data_directory: "{{ zabbix_host_directory }}/postgres/data"
 postgres_conf_directory: "{{ zabbix_host_directory }}/postgres/config"
 postgres_service_name: zabbix-pg
 postgres_image: postgres:latest
+
+keepalived_instance_name: zabbix
+keepalived_auth_pass: passsword
+keepalived_virtual_ipaddress: 192.168.88.100
+keepalived_virtual_router_id: 51
+keepalived_interface: "{{ ansible_default_ipv4.interface }}"

@@ -1,0 +1,33 @@
+vrrp_script chk_haproxy {
+    script "killall -0 haproxy"   # Check if HAProxy process is running
+    interval 2                    # Check every 2 seconds
+    weight 2                      # Weight to influence master election
+}
+
+vrrp_instance VI_{{ keepalived_instance_name }} {
+  {% if ansible_hostname == groups['zabbix_server'][0] %}
+  state MASTER
+  {% else %}
+  state BACKUP
+  {% endif %}
+  interface {{ keepalived_interface }}
+  virtual_router_id {{ keepalived_virtual_router_id }}
+  {% if ansible_hostname == groups['zabbix_server'][0] %}
+  priority 150
+  {% else %}
+  priority 100
+  {% endif %}
+
+  authentication {
+    auth_type PASS
+    auth_pass {{ keepalived_auth_pass }}
+  }
+
+  virtual_ipaddress {
+    {{ keepalived_virtual_ipaddress }}
+  }
+
+  track_script {
+    chk_haproxy
+  }
+}
