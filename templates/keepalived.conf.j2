@@ -1,11 +1,11 @@
 global_defs {
-  router_id {{ ansible_hostname }}  # Unique per server
+  router_id {{ ansible_hostname }}
 }
 
 vrrp_script chk_haproxy {
-    script "killall -0 haproxy"   # Check if HAProxy process is running
-    interval 2                    # Check every 2 seconds
-    weight 2                      # Weight to influence master election
+    script "killall -0 haproxy"
+    interval 2
+    weight 2
 }
 
 vrrp_instance VI_{{ keepalived_instance_name }} {
@@ -17,7 +17,7 @@ vrrp_instance VI_{{ keepalived_instance_name }} {
   interface {{ keepalived_interface }}
   virtual_router_id {{ keepalived_virtual_router_id }}
   {% if ansible_hostname == groups['zabbix_server'][0] %}
-  priority 150
+  priority 101
   {% else %}
   priority 100
   {% endif %}
